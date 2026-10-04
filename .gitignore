@@ -1,0 +1,22 @@
+# 비밀 설정
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# 설치·빌드·임시 파일
+.original-source/
+node_modules/
+dist/
+.cache/
+coverage/
+*.log
+*.tmp
+
+# 편집기와 운영체제
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
