@@ -2,6 +2,19 @@
 (() => {
   const key = 'moodboard-post-studio-v1';
   const $ = id => document.getElementById(id);
+  function updateToday() {
+    const now = new Date();
+    const dateParts = new Intl.DateTimeFormat('en', {
+      timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
+    }).formatToParts(now);
+    const part = name => dateParts.find(item => item.type === name).value;
+    $('today').dateTime = part('year') + '-' + part('month') + '-' + part('day');
+    $('today').textContent = new Intl.DateTimeFormat('ko-KR', {
+      timeZone: 'Asia/Seoul', year: 'numeric', month: 'long', day: 'numeric', weekday: 'long',
+    }).format(now);
+  }
+  updateToday();
+  setInterval(updateToday, 60000);
   const palettes = [['#51433d', '#c7a18e', '#827663'], ['#343f38', '#a2b49a', '#66765e'], ['#35394d', '#a5a8cd', '#6b7294']];
   let state = { topic: '', category: '뷰티', tone: '친근한 정보형', slides: [], caption: '', hashtags: '' };
   function message(text) { $('status').textContent = text; }
@@ -48,10 +61,10 @@
     const shade = ctx.createLinearGradient(0, 500, 0, 1350);
     shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(1, 'rgba(0,0,0,.65)');
     ctx.fillStyle = shade; ctx.fillRect(0, 0, 1080, 1350);
-    ctx.fillStyle = '#fff'; ctx.textBaseline = 'top'; ctx.font = '600 28px sans-serif';
+    ctx.fillStyle = '#fff'; ctx.textBaseline = 'top'; ctx.font = '600 34px sans-serif';
     ctx.fillText(slide.category + ' · MOODBOARD', 72, 72);
     // Shrink long Korean/emoji text until it fits above the footer.
-    let size = 62;
+    let size = 74;
     function lines(text, fontSize) {
       ctx.font = '700 ' + fontSize + 'px sans-serif';
       let count = 1, line = '';
@@ -66,7 +79,7 @@
     const end = wrap(ctx, slide.title, 72, 620, 936, size * 1.35);
     ctx.font = '500 ' + Math.floor(size * .57) + 'px sans-serif';
     wrap(ctx, slide.body, 72, end + 32, 936, size * .85);
-    ctx.font = '600 24px sans-serif'; ctx.fillText('moodboard. · ' + String(index + 1).padStart(2, '0') + ' / 05', 72, 1270);
+    ctx.font = '600 29px sans-serif'; ctx.fillText('moodboard. · ' + String(index + 1).padStart(2, '0') + ' / 05', 72, 1270);
     canvas.setAttribute('aria-label', slide.title + ': ' + slide.body);
   }
   function render() {
